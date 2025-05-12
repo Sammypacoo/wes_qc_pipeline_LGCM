@@ -1,0 +1,9 @@
+# snakemake_base_env.yaml
+name: snakemake_base
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - snakemake
+  - mamba  # opcional, mas recomendado
