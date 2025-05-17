@@ -1,5 +1,5 @@
 
-### Identificação 
+# Identificação 
 
 Estou participando do **Desafio Técnico – Bioinformata**, proposto pelo **Laboratory of Genetics and Molecular Cardiology**.
 
@@ -10,12 +10,12 @@ Estou participando do **Desafio Técnico – Bioinformata**, proposto pelo **Lab
 - **LinkedIn:** [https://www.linkedin.com/in/samanthapaco/](https://www.linkedin.com/in/samanthapaco/)
 
 
-###  Dados de Entrada
+#  Dados de Entrada
 script ./scripts/download_data.sh cria uma pasta ./data dentro do diretorio do github e baixa os arquivos abaixo :
 
 Os arquivos utilizados neste desafio foram organizados na pasta `data/`. Eles se dividem em duas categorias: arquivos de alinhamento e anotação genômica, e arquivos de referência para análise de contaminação com o software **VerifyBamID**.
 
-####  Arquivos de Alinhamento e Referência Genômica
+##  Arquivos de Alinhamento e Referência Genômica
 Eles foram baixados no site abaixo 
 http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/data/CEU/NA06994/exome_alignment/
 
@@ -25,7 +25,7 @@ http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/
 - [Genoma de referência - GRCh38 full + decoy + HLA](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa)  
 - [Index do genoma de referência (.fai)](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa.fai)  
 
-####  Arquivos para Análise de Contaminação (VerifyBamID)
+## Arquivos para Análise de Contaminação (VerifyBamID)
 
 Esses arquivos devem ser baixados e salvos na mesma pasta `data/` para a execução do **VerifyBamID**:
 
@@ -35,14 +35,14 @@ Esses arquivos devem ser baixados e salvos na mesma pasta `data/` para a execuç
 - [1000g.phase3.10k.b38.exome.vcf.gz.dat.mu](https://github.com/Griffan/VerifyBamID/blob/master/resource/exome/1000g.phase3.10k.b38.exome.vcf.gz.dat.mu)  
 
 
-### Organizacão do Snakemaker  
-####  Rule 1:  Fazer os arquivos serem executáveis
+# Organizacão do Snakemaker  
+##  Rule 1:  Fazer os arquivos serem executáveis
   ```bash
   chmod +x scripts/*.sh
   ```
-####  Rule 2: Verificação Hashes MD5 dos arquivos cram,crai e bed baixados
+##  Rule 2: Verificação Hashes MD5 dos arquivos cram,crai e bed baixados
 
-##### Hashes MD5 esperados:
+### Hashes MD5 esperados:
 
   - Arquivo cram`NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram`  
     `3d8d8dc27d85ceaf0daefa493b8bd660`
@@ -58,7 +58,7 @@ Esses arquivos devem ser baixados e salvos na mesma pasta `data/` para a execuç
   ```bash
   md5sum arquivo.txt
   ```
-####  Rule 3: Conversão do arquivo cram em bam e também a criacao do arquivo index bai
+## Rule 3: Conversão do arquivo cram em bam e também a criacao do arquivo index bai
 Recorri ao samtools pra conversão do arquivo bam, os arquivos output bam são encaminhados para pasta ./results
 
   ```bash
@@ -67,7 +67,7 @@ Recorri ao samtools pra conversão do arquivo bam, os arquivos output bam são e
   ```
 
 
- ####  Rule 4: Cálculo de cobertura 
+##  Rule 4: Cálculo de cobertura 
 Recorri ao mosdept para o cálculo da cobertura
 
   ```bash
@@ -85,7 +85,7 @@ Recorri ao mosdept para o cálculo da cobertura
 
   - Preparar dados para análise de CNV ou filtragem por cobertura
 
-##### Arquivos de saída do mosdepth com `--by <input.bed>` . os arquivos output são encaminhados para pasta ./results
+### Arquivos de saída do mosdepth foram encaminhados para pasta ./results
 A ferramenta [`mosdepth`](https://github.com/brentp/mosdepth) foi utilizada com a opção `--by`, aplicando um arquivo BED para calcular a profundidade de cobertura apenas nas regiões especificadas, nesse projeto o exoma.
 
 | Arquivo                             | Descrição                                                                                                     |
@@ -100,15 +100,63 @@ A ferramenta [`mosdepth`](https://github.com/brentp/mosdepth) foi utilizada com 
 
 Iremos utilizar os aquivos {prefix}.regions.bed.gz e {prefix}.thresholds.bed.gz 
 
+## Rule 5: Relatório da Cobertura
 
-## ✅ Pré-requisitos
+Este passo executa o script `scripts/cobertura_report.py` para gerar o relatório de cobertura a partir dos arquivos `{prefix}.regions.bed.gz` e `{prefix}.thresholds.bed.gz`.
+
+### O que é feito:
+
+- **Profundidade média:** média de vezes que cada base foi sequenciada.
+- **Cobertura ≥10x e ≥30x:** indicam regiões com cobertura adequada para detectar variantes comuns e raras, respectivamente.
+- **Gráficos gerados:**
+  - Histograma em escala logarítmica para visualizar melhor a distribuição da cobertura.
+  - Heatmap mostrando a cobertura ao longo dos cromossomos.
+
+## Rule 6: Inferência do Sexo Genético
+Este passo executa o script `scripts/infer_sex.py`
+
+A inferência foi feita com base em três pilares:
+
+1. **Razões de cobertura:**  
+   Calculou-se a cobertura média dos cromossomos **chr1** (autossômico), **chrX** e **chrY**.  
+   Razões X/1 próximas de 2 indicam perfil feminino (XX); razões Y/1 acima de 0.1 indicam masculino (XY).
+
+2. **Visualização (boxplot):**  
+   Gráfico da cobertura nos cromossomos chr1, chrX e chrY em escala logarítmica, evidenciando diferenças na cobertura entre os sexos.
+
+3. **Cobertura do gene SRY:**  
+   Presença de cobertura no gene SRY, exclusivo do cromossomo Y, confirma perfil masculino; ausência sugere perfil feminino.
+
+
+## Rule 7: Estimativa de Contaminação com VerifyBamID2
+
+Esta etapa utiliza o software **VerifyBamID2** para estimar a **contaminação do DNA** na amostra analisada.
+
+### Objetivo:
+Detectar **misturas indesejadas de DNA** (ex. contaminação cruzada entre amostras), o que pode afetar a qualidade das análises genômicas.
+
+### Entradas principais:
+- `BAM`: arquivo de alinhamento da amostra.
+- `Reference`: genoma de referência.
+- Arquivos auxiliares com PCA e variância baseados no painel 1000 Genomes (pré-processados).
+
+### Saída:
+- Arquivo `.selfSM` contendo a **fração estimada de contaminação**.
+
+## Rule 8: Relatório da Contaminação
+### Interpretação rápida:
+- **FREEMIX < 0.02** → sem contaminação significativa.
+- **FREEMIX > 0.05** → atenção: contaminação pode comprometer resultados.
+
+
+# ✅ Pré-requisitos
 
 - [Miniconda](https://docs.conda.io/en/latest/miniconda.html) instalado
 - Git 
 
 ---
 
-## 🛠️ Rodar o programa
+# 🛠️ Rodar o programa
 
 1. Clonar o repositório:
 

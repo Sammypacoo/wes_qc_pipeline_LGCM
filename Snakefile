@@ -3,17 +3,14 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        "logs/scripts_ready.done",
-        "logs/md5_check.done",
-        "data/sample.bam",
-        "results/coverage_stats.txt",
-        "results/sex_inference.txt",
-        "results/contamination.txt"
+        cobertura_report=config["cobertura_report"],
+        sex_report=config["sex_report"],
+        selfsm=config["selfsm"]
 
 # Rule 1:  make scripts executable
 rule make_scripts_executable:
     input:
-        expand("scripts/{script}", script=["md5_check.sh","add_percent_column.sh"])
+        expand("scripts/{script}", script=["md5_check.sh","cobertura_report.py","infer_sex.py"])
     output:
         touch("logs/scripts_ready.done")
     shell:
@@ -34,7 +31,7 @@ rule check_md5:
         "logs/md5_check.log"
     shell:
         """
-        bash scripts/md5_check.sh > {log} 2>&1 && touch {output.done}
+        scripts/md5_check.sh > {log} 2>&1 && touch {output.done}
         """
 # Rule 3: Conversão de CRAM para BAM
 rule convert_cram:
@@ -44,9 +41,11 @@ rule convert_cram:
         ref=config["reference"]
     output:
        bam= config["bam"],
-       bai= config["bai"]   
+       bai= config["bai"]  
+    log:
+        "logs/convert_cram.log" 
     conda:
-        "envs/env.yml"
+        "envs/env.yaml"
     shell:
         """
         samtools view -T {input.ref} -b -o {output.bam} {input.cram}
@@ -60,10 +59,12 @@ rule calculate_coverage:
         bam= config["bam"],
         bed=config["bed"]
     output:
-        "results/cobertura.thresholds.bed.gz",
-        "results/cobertura.regions.bed.gz"
+        regions= config["regions"],
+        thresholds=config["thresholds"]
     conda:
-        "envs/env.yml"
+        "envs/env.yaml"
+    log:
+        "logs/calculate_coverage.log"
     shell:
         """
         mosdepth \
@@ -73,50 +74,64 @@ rule calculate_coverage:
                ./results/cobertura \
             {input.bam}
         """
-
-# Add uma coluna com a porcentagem de 10x e 30x
-rule add_percent_column:
-    input:
-        cobertura_10_30="results/cobertura.thresholds.bed.gz"
-    output:
-        "results/cobertura.thresholds_percentual.tsv"
-
-    shell:
-        """
-        bash scripts/add_percent_column.sh 
-        """
-
+# Rule 5: Relatório da cobertura
 rule cobertura_report:
     input:
-        "results/cobertura.thresholds.bed.gz",
-        "results/cobertura.regions.bed.gz"
+        regions= config["regions"],
+        thresholds=config["thresholds"]
     output:
-        "results/report.md"
+        cobertura_report=config["cobertura_report"]
     conda:
-        "envs/report_env.yaml"
+        "envs/env.yaml"
     shell:
-        "python scripts/generate_report.py"
+        "python scripts/cobertura_report.py"
 
-# Inferência de sexo com script Python
+# Rule 6 :Inferência de sexo com script Python
 rule infer_sex:
     input:
-        regions="results/cobertura.regions.bed.gz",
+        regions= config["regions"],
     output:
-        report="results/relatorio_sex.md"
+        sex_report=config["sex_report"]
     conda:
-        "envs/env.yml"
+        "envs/env.yaml"
     script:
         "scripts/infer_sex.py"
 
-# Estimativa de contaminação com verifyBamID2
+# Rule 7 :Estimativa de contaminação com verifyBamID2
 rule contamination:
     input:
-        bam="data/sample.bam",
-        vcf=config["vcf"]
+        bam=config["bam"],
+        ref=config["reference"],
+        vb_UD=config["vb_UD"],
+        vb_bed=config["vb_bed"],
+        vb_mu=config["vb_mu"],
+        vb_V=config["vb_V"]
     output:
-        "results/contamination.txt"
+        selfsm=config["selfsm"]
+
+    log:
+        "logs/verifybamid2.log"
+
     shell:
         """
-        verifybamid2 --bam {input.bam} --vcf {input.vcf} --out results/contam && \
-        mv results/contam.selfSM {output}
+        verifybamid2 \
+        --BamFile {input.bam} \
+        --Reference  {input.ref}\
+        --SVDPrefix /data/1000g.phase3.10k.b38.exome.vcf.gz.dat \
+        --Output /results/NA06994_verifybamid2_result
+
         """
+
+# Rule 8: Relatório da contaminação
+rule contaminacao_report:
+    input:
+        selfsm=config["selfsm"]
+    output:
+        contaminacao_report=config["contaminacao_report"]
+    conda:
+        "envs/env.yaml"
+    shell:
+        "python scripts/contaminacao_report.py"
+
+
+

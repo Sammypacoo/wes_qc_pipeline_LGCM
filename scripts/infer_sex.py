@@ -9,7 +9,7 @@ import sys
 
 # Usando input/output do Snakemake
 bed_path = snakemake.input.regions
-report_path = snakemake.output.report_in
+report_path = snakemake.output.sex_report
 plot_path = report_path.replace(".md", ".png")
 
 # Leitura e parsing
