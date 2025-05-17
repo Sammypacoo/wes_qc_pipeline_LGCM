@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Caminho do diretório onde estão os arquivos
 DATA_DIR="./data"
 
 # Arquivos e seus MD5 esperados
@@ -12,12 +11,15 @@ FILES_MD5["hg38_exome_v2.0.2_targets_sorted_validated.re_annotated.bed"]="c3a7ce
 echo "🔍 Verificando integridade dos arquivos via MD5..."
 echo
 
+all_ok=true
+
 for file in "${!FILES_MD5[@]}"; do
     filepath="$DATA_DIR/$file"
     expected_md5="${FILES_MD5[$file]}"
-    
+
     if [ ! -f "$filepath" ]; then
         echo "❌ Arquivo não encontrado: $filepath"
+        all_ok=false
         continue
     fi
 
@@ -29,5 +31,15 @@ for file in "${!FILES_MD5[@]}"; do
         echo "❌ $file: MD5 inválido"
         echo "   Esperado : $expected_md5"
         echo "   Encontrado: $calculated_md5"
+        all_ok=false
     fi
 done
+
+if [ "$all_ok" = false ]; then
+    echo
+    echo "❌ Um ou mais arquivos falharam na verificação de MD5. Abortando."
+    exit 1
+else
+    echo
+    echo "✅ Todos os arquivos passaram na verificação de MD5."
+fi

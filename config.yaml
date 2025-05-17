@@ -1,6 +1,16 @@
-reference: "data/GRCh38.fa"
-vcf: "data/1000G.vcf.gz"
+# Dados de entrada
+reference: "data/GRCh38_full_analysis_set_plus_decoy_hla.fa"
+reference_index: "data/GRCh38_full_analysis_set_plus_decoy_hla.fa.fai"
+vb_UD: "data/1000g.phase3.10k.b38.exome.vcf.gz.dat.UD"
+vb_V: "data/1000g.phase3.10k.b38.exome.vcf.gz.dat.V"
+vb_bed: "data/1000g.phase3.10k.b38.exome.vcf.gz.dat.bed"
+vb_mu: "data/1000g.phase3.10k.b38.exome.vcf.gz.dat.mu"
 
-cram: "NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram"
-crai: "NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai"
-bed: "hg38_exome_v2.0.2_targets_sorted_validated.re_annotated.bed"
+cram: "data/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram"
+crai: "data/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai"
+bed: "data/hg38_exome_v2.0.2_targets_sorted_validated.re_annotated.bed"
+
+
+# Resultados
+bam: "results/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.bam"
+bai: "results/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.bam.bai"  

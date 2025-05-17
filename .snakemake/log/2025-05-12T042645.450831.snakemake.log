@@ -1,0 +1,7 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: mimas
+Building DAG of jobs...
+WildcardError in rule check_md5 in file "/home/venus/mar/alunos/slucciola/wes_qc_pipeline_LGCM/Snakefile", line 26:
+Wildcards in input files cannot be determined from output files: (rule check_md5, line 51, /home/venus/mar/alunos/slucciola/wes_qc_pipeline_LGCM/Snakefile)
+'cram'

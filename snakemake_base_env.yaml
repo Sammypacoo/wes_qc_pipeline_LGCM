@@ -6,4 +6,4 @@ channels:
   - defaults
 dependencies:
   - snakemake
-  - mamba  # opcional, mas recomendado
+  - mamba  
