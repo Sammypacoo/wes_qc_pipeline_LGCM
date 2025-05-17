@@ -140,6 +140,9 @@ Detectar **misturas indesejadas de DNA** (ex. contaminação cruzada entre amost
 - `Reference`: genoma de referência.
 - Arquivos auxiliares com PCA e variância baseados no painel 1000 Genomes (pré-processados).
 
+FREEMIX é uma estimativa da proporção de DNA contaminante presente em uma amostra de sequenciamento.
+
+Ele é calculado pelo programa VerifyBamID2, que compara as leituras do seu arquivo BAM/CRAM com um painel de referência de variantes esperadas (como o 1000 Genomes).
 ### Saída:
 - Arquivo `.selfSM` contendo a **fração estimada de contaminação**.
 
