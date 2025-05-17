@@ -70,7 +70,7 @@ rule calculate_coverage:
             --by {input.bed} \
             --thresholds 10,30 \
             --threads 4 \
-             cobertura \
+               ./results/cobertura \
             {input.bam}
         """
 

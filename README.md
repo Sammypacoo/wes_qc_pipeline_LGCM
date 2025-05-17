@@ -11,11 +11,13 @@ Estou participando do **Desafio Técnico – Bioinformata**, proposto pelo **Lab
 
 
 ###  Dados de Entrada
-O script ./scripts/download_data.sh cria uma pasta ./data dentro do diretorio do github e baixa os arquivos abaixo :
+script ./scripts/download_data.sh cria uma pasta ./data dentro do diretorio do github e baixa os arquivos abaixo :
 
 Os arquivos utilizados neste desafio foram organizados na pasta `data/`. Eles se dividem em duas categorias: arquivos de alinhamento e anotação genômica, e arquivos de referência para análise de contaminação com o software **VerifyBamID**.
 
 ####  Arquivos de Alinhamento e Referência Genômica
+Eles foram baixados no site abaixo 
+http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/data/CEU/NA06994/exome_alignment/
 
 - [CRAM do exoma - NA06994 (1000 Genomes Project)](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/data/CEU/NA06994/exome_alignment/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram)  
 - [CRAI (índice do CRAM)](https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000_genomes_project/data/CEU/NA06994/exome_alignment/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai)  
@@ -64,15 +66,16 @@ Recorri ao samtools pra conversão do arquivo bam, os arquivos output bam são e
   samtools index  {output.bam}
   ```
 
+
  ####  Rule 4: Cálculo de cobertura 
-Recorri ao mosdept para o cálculo da cobertura, os arquivos output bam são encaminhados para pasta ./results
+Recorri ao mosdept para o cálculo da cobertura
 
   ```bash
   mosdepth \
       --by {input.bed} \
       --thresholds 10,30 \
       --threads 4 \
-        cobertura \
+         ./results/cobertura \
       {input.bam}
   ```
  O mosdept calcula a cobertura (número de leituras alinhadas) em regiões do genoma a partir de arquivos BAM/CRAM. É comumente usado para:
@@ -82,10 +85,20 @@ Recorri ao mosdept para o cálculo da cobertura, os arquivos output bam são enc
 
   - Preparar dados para análise de CNV ou filtragem por cobertura
 
-Os outputs desse programa são
+##### Arquivos de saída do mosdepth com `--by <input.bed>` . os arquivos output são encaminhados para pasta ./results
+A ferramenta [`mosdepth`](https://github.com/brentp/mosdepth) foi utilizada com a opção `--by`, aplicando um arquivo BED para calcular a profundidade de cobertura apenas nas regiões especificadas, nesse projeto o exoma.
+
+| Arquivo                             | Descrição                                                                                                     |
+|-----------------------------------|---------------------------------------------------------------------------------------------------------------|
+| `{prefix}.mosdepth.global.dist.txt` | Distribuição da profundidade por base em todo o arquivo BAM, independente das regiões do BED.                   |
+| `{prefix}.mosdepth.regions.dist.txt` | Distribuição da profundidade por base das regiões do BED. 
+| `{prefix}.mosdepth.summary.txt`      | Estatísticas de cobertura agregadas por região do BED (média, mediana, min, max, etc.).                         |
+| `{prefix}.regions.bed.gz`              | Cobertura média (ou mediana, se opção usada) por região do arquivo BED, em formato BED compactado.             |
+| `{prefix}.thresholds.bed.gz`           | Contagem de bases em cada região do BED com cobertura ≥ aos thresholds configurados (ex: ≥10x, ≥30x).          |                     |
+| `{prefix}.per-base.bed.gz`              | **Não gerado quando se usa `--by`.**  
 
 
-
+Iremos utilizar os aquivos {prefix}.regions.bed.gz e {prefix}.thresholds.bed.gz 
 
 
 ## ✅ Pré-requisitos
