@@ -1,0 +1,10 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+libdir=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_/lib
+includedir=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_/include
+
+Name: libturbojpeg
+Description: A SIMD-accelerated JPEG codec that provides the TurboJPEG API
+Version: 3.1.0
+Libs: -L${libdir} -lturbojpeg
+Cflags: -I${includedir}

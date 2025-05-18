@@ -1,0 +1,10 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: Wayland Cursor
+Description: Wayland cursor helper library
+Version: 1.23.1
+Requires.private: wayland-client
+Libs: -L${libdir} -lwayland-cursor
+Cflags: -I${includedir}

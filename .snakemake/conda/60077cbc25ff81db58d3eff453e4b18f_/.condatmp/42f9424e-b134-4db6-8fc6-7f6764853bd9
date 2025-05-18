@@ -1,0 +1,12 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: alsa
+Description: Advanced Linux Sound Architecture (ALSA) - Library
+Version: 1.2.14
+Requires: 
+Libs: -L${libdir} -lasound
+Libs.private: -lm -lpthread -lrt
+Cflags: -I${includedir}

@@ -1,0 +1,12 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libbrotlidec
+URL: https://github.com/google/brotli
+Description: Brotli decoder library
+Version: 1.1.0
+Libs: -L${libdir} -lbrotlidec
+Requires.private: libbrotlicommon >= 1.1.0
+Cflags: -I${includedir}

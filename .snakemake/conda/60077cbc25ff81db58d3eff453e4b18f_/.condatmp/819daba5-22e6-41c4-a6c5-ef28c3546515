@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: 0BSD
+# Author: Lasse Collin
+
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+libdir=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_/lib
+includedir=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_/include
+
+Name: liblzma
+Description: General purpose data compression library
+URL: https://tukaani.org/xz/
+Version: 5.8.1
+Cflags: -I${includedir}
+Cflags.private: -DLZMA_API_STATIC
+Libs: -L${libdir} -llzma
+Libs.private: -pthread -lpthread 

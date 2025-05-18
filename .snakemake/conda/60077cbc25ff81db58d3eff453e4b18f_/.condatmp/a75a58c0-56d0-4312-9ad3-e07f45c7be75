@@ -1,0 +1,11 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: XCB DPMS
+Description: XCB DPMS Extension
+Version: 1.17.0
+Requires.private: xcb
+Libs: -L${libdir} -lxcb-dpms
+Cflags: -I${includedir}

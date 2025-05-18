@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: SQLite
+Description: SQL database engine
+Version: 3.49.2
+Libs: -L${libdir} -lsqlite3
+Libs.private: -lm -lz 
+Cflags: -I${includedir}

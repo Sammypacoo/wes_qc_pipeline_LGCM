@@ -1,0 +1,10 @@
+prefix=/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/.snakemake/conda/60077cbc25ff81db58d3eff453e4b18f_
+includedir=${prefix}/include
+libdir=${prefix}/lib
+
+Name: Pixman
+Description: The pixman library (version 1)
+Version: 0.46.0
+Libs: -L${libdir} -lpixman-1
+Libs.private: -lm -pthread
+Cflags: -I${includedir}/pixman-1

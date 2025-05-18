@@ -1,0 +1,19 @@
+# envs/env.yaml
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - samtools
+  - bedtools
+  - verifybamid2
+  - bash
+  - coreutils
+  - mosdepth
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - natsort
+  - polars

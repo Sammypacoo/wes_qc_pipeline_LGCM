@@ -1,0 +1,11 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: mimas
+Building DAG of jobs...
+MissingInputException in rule convert_cram in file "/home/venus/mar/alunos/slucciola/teste/wes_qc_pipeline_LGCM/Snakefile", line 37:
+Missing input files for rule convert_cram:
+    output: results/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.bam, results/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.bam.bai
+    affected files:
+        data/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram
+        data/NA06994.alt_bwamem_GRCh38DH.20150826.CEU.exome.cram.crai
+        data/GRCh38_full_analysis_set_plus_decoy_hla.fa
