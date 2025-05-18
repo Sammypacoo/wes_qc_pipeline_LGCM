@@ -1,0 +1,19 @@
+## Inferência de Sexo Genético
+
+- Cobertura média:
+A partir da análise da cobertura média por cromossomo, foi realizada a inferência do sexo genético com base na razão de cobertura dos cromossomos sexuais (X e Y) em relação ao cromossomo autossômico chr1.
+  - chr1: 72.07
+  - chrX: 51.55
+  - chrY: 70.73
+
+- Razão X/1: **0.72**, Razão Y/1: **0.98**
+
+  - Interpretação: A presença de cobertura no cromossomo Y e a razão X/1 próxima de 1.0 indicam um perfil masculino (XY). No boxplot, a cobertura do cromossomo X está próxima da de chr1, e o cromossomo Y apresenta cobertura clara, reforçando a presença do cromossomo Y e o perfil XY. 
+![Boxplot de cobertura](relatorio_sex.png)
+- Verificação adicional: **Gene SRY** 
+, marcador exclusivo do cromossomo Y, foi utilizado como validação adicional da inferência.
+  - Cobertura média sobre SRY: **30.75x**.
+ A presença de cobertura nessa região é compatível com indivíduos do sexo masculino.
+
+**Inferência: Masculino (XY)**
+
